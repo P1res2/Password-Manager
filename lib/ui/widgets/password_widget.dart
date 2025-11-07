@@ -3,7 +3,18 @@ import 'package:flutter/services.dart';
 import '../themes/app_colors.dart';
 
 class PasswordWidget extends StatelessWidget {
-  const PasswordWidget({super.key});
+  final String site;
+  final String user;
+  final String password;
+  final VoidCallback showEditDialog;
+
+  const PasswordWidget({
+    super.key,
+    required this.site,
+    required this.user,
+    required this.password,
+    required this.showEditDialog,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +36,16 @@ class PasswordWidget extends StatelessWidget {
                 child: Material(
                   color: Colors.transparent,
                   child: InkWell(
-                    onTap: () {},
+                    onTap: showEditDialog,
                     borderRadius: BorderRadius.circular(10),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(Icons.camera_alt_rounded, size: 50),
-                        Text('Discord', style: TextStyle(color: PasswordWidgetColor.logoText)),
+                        Text(
+                          site,
+                          style: TextStyle(color: PasswordWidgetColor.logoText),
+                        ),
                       ],
                     ),
                   ),
@@ -43,16 +57,22 @@ class PasswordWidget extends StatelessWidget {
                 flex: 3,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      'exemplo@email.com',
-                      style: TextStyle(color: PasswordWidgetColor.text, fontSize: 17),
+                      user,
+                      style: TextStyle(
+                        color: PasswordWidgetColor.text,
+                        fontSize: 17,
+                      ),
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(
-                      'senha123456',
-                      style: TextStyle(color: PasswordWidgetColor.text, fontSize: 17),
+                      password,
+                      style: TextStyle(
+                        color: PasswordWidgetColor.text,
+                        fontSize: 17,
+                      ),
                     ),
                   ],
                 ),
@@ -67,23 +87,29 @@ class PasswordWidget extends StatelessWidget {
                   children: [
                     IconButton(
                       onPressed: () {
-                        Clipboard.setData(
-                          ClipboardData(text: 'exemplo@email.com'),
-                        );
+                        Clipboard.setData(ClipboardData(text: user));
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('O login foi Copiado!')),
                         );
                       },
-                      icon: Icon(Icons.copy, color: PasswordWidgetColor.icon, size: 16),
+                      icon: Icon(
+                        Icons.copy,
+                        color: PasswordWidgetColor.icon,
+                        size: 16,
+                      ),
                     ),
                     IconButton(
                       onPressed: () {
-                        Clipboard.setData(ClipboardData(text: 'senha123'));
+                        Clipboard.setData(ClipboardData(text: password));
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('A senha foi copiada!')),
                         );
                       },
-                      icon: Icon(Icons.copy, color: PasswordWidgetColor.icon, size: 16),
+                      icon: Icon(
+                        Icons.copy,
+                        color: PasswordWidgetColor.icon,
+                        size: 16,
+                      ),
                     ),
                   ],
                 ),
