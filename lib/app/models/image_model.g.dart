@@ -1,41 +1,35 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'password_model.dart';
+part of 'image_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class PasswordModelAdapter extends TypeAdapter<PasswordModel> {
+class ImageModelAdapter extends TypeAdapter<ImageModel> {
   @override
-  final int typeId = 0;
+  final int typeId = 2;
 
   @override
-  PasswordModel read(BinaryReader reader) {
+  ImageModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return PasswordModel(
-      site: fields[0] as String,
-      usuario: fields[1] as String,
-      senha: fields[2] as String,
-      imagem: fields[3] as ImageModel?,
+    return ImageModel(
+      nome: fields[0] as String,
+      caminho: fields[1] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, PasswordModel obj) {
+  void write(BinaryWriter writer, ImageModel obj) {
     writer
-      ..writeByte(4)
-      ..writeByte(0)
-      ..write(obj.site)
-      ..writeByte(1)
-      ..write(obj.usuario)
       ..writeByte(2)
-      ..write(obj.senha)
-      ..writeByte(3)
-      ..write(obj.imagem);
+      ..writeByte(0)
+      ..write(obj.nome)
+      ..writeByte(1)
+      ..write(obj.caminho);
   }
 
   @override
@@ -44,7 +38,7 @@ class PasswordModelAdapter extends TypeAdapter<PasswordModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is PasswordModelAdapter &&
+      other is ImageModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

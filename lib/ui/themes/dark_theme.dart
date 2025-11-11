@@ -7,24 +7,48 @@ ThemeData darkThemeApp = ThemeData(
   // ColorScheme ////////////////////////////////
   colorScheme: const ColorScheme(
     brightness: Brightness.dark,
-    primary: AppColors.primary,
-    onPrimary: Colors.white,
-    secondary: AppColors.secondary,
-    onSecondary: Colors.white,
+    primary: AppColors.darkPrimaryText,
+    onPrimary: AppColors.darkPrimaryText,
+    secondary: AppColors.primary,
+    onSecondary: AppColors.darkPrimaryText,
     error: Colors.red,
     onError: Colors.white,
-    surface: AppColors.background,
-    onSurface: AppColors.secondary,
+    surface: AppColors.darkBackground,
+    onSurface: AppColors.darkSecondaryText,
+  ),
+
+  // TextTheme ////////////////////////////////
+  textTheme: TextTheme(
+    bodySmall: TextStyle(color: AppColors.darkSecondaryText),
+    bodyMedium: TextStyle(color: AppColors.darkPrimaryText),
+    bodyLarge: TextStyle(
+      color: AppColors.darkSecondaryText, // TextField
+    ),
+  ),
+
+  // SnackBarTheme ////////////////////////////////
+  snackBarTheme: SnackBarThemeData(
+    backgroundColor: AppColors.primary,
+    contentTextStyle: TextStyle(color: AppColors.darkPrimaryText),
+  ),
+
+  // ElevatedButtonTheme ////////////////////////////////
+  elevatedButtonTheme: const ElevatedButtonThemeData(
+    style: ButtonStyle(
+      iconColor: WidgetStatePropertyAll(AppColors.primary),
+      backgroundColor: WidgetStatePropertyAll(AppColors.black),
+    ),
   ),
 
   // NavigationRailTheme ////////////////////////////////
-  navigationRailTheme: NavigationRailThemeData(
+  navigationRailTheme: const NavigationRailThemeData(
     selectedLabelTextStyle: TextStyle(
-      color: Colors.white,
+      color: AppColors.darkPrimaryText,
       fontWeight: FontWeight.bold,
     ),
+    selectedIconTheme: IconThemeData(color: AppColors.darkPrimaryText),
     unselectedLabelTextStyle: TextStyle(color: AppColors.lightGrey),
     unselectedIconTheme: IconThemeData(color: AppColors.lightGrey),
-    backgroundColor: AppColors.navigationRailBackground,
+    backgroundColor: AppColors.darkNavigationRailBackground,
   ),
 );

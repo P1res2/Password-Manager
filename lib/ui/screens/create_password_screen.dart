@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import '../../app/models/password_model.dart';
+import 'package:flutter_password_manager/ui/widgets/app_text_field.dart';
+import 'package:flutter_password_manager/ui/widgets/image_picker.dart';
+import 'package:image_picker/image_picker.dart';
+import '../../app/services/password_service.dart';
 
 class CreatePasswordScreen extends StatefulWidget {
   const CreatePasswordScreen({super.key});
@@ -13,36 +15,42 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
   final _siteCtrl = TextEditingController();
   final _userCtrl = TextEditingController();
   final _passCtrl = TextEditingController();
+  XFile? _imgCtrl;
+  final PasswordService _passwordService = PasswordService();
+  late ScaffoldMessengerState messenger;
 
-  late Box<PasswordModel> box;
+  Future<void> _addPassword() async {
+    if (await _passwordService.addPassword(
+      _siteCtrl.text,
+      _userCtrl.text,
+      _passCtrl.text,
+      _imgCtrl,
+    )) {
+      _siteCtrl.clear();
+      _userCtrl.clear();
+      _passCtrl.clear();
+      setState(() {
+        _imgCtrl = null;
+      });
 
-  @override
-  void initState() {
-    super.initState();
-    box = Hive.box<PasswordModel>('senhas');
-  }
-
-  void _addSenha() {
-    if (_siteCtrl.text.isEmpty || _passCtrl.text.isEmpty) return;
-
-    final nova = PasswordModel(
-      site: _siteCtrl.text,
-      usuario: _userCtrl.text,
-      senha: _passCtrl.text,
-    );
-    box.add(nova);
-
-    _siteCtrl.clear();
-    _userCtrl.clear();
-    _passCtrl.clear();
-  }
-
-  void _deleteSenha(int index) {
-    box.deleteAt(index);
+      messenger.showSnackBar(
+        SnackBar(content: Text('Senha criada com sucesso!')),
+      );
+    } else {
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text(
+            'Não foi possivel criar a senha. Tente novamente mais tarde.',
+          ),
+        ),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    messenger = ScaffoldMessenger.of(context);
+
     return Scaffold(
       body: Center(
         child: SizedBox(
@@ -53,23 +61,39 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TextField(
-                controller: _siteCtrl,
-                decoration: const InputDecoration(labelText: 'Site'),
-              ),
-              TextField(
-                controller: _userCtrl,
-                decoration: const InputDecoration(labelText: 'Usuário'),
-              ),
-              TextField(
-                controller: _passCtrl,
-                decoration: const InputDecoration(labelText: 'Senha'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  _addSenha();
+              EscolherImagemWidget(
+                image: _imgCtrl,
+                onChanged: (value) {
+                  setState(() {
+                    _imgCtrl = value;
+                  });
                 },
-                child: const Text('Adicionar'),
+              ),
+
+              const SizedBox(height: 16), // Spacing
+
+              AppTextField(label: 'Nome', controller: _siteCtrl),
+
+              const SizedBox(height: 16), // Spacing
+
+              AppTextField(label: 'Usuário', controller: _userCtrl),
+
+              const SizedBox(height: 16), // Spacing
+
+              AppTextField(label: 'Senha', controller: _passCtrl),
+
+              const SizedBox(height: 32), // Spacing
+
+              SizedBox(
+                width: 200,
+                height: 40,
+                child: ElevatedButton(
+                  onPressed: _addPassword,
+                  child: const Text(
+                    'Adicionar',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
               ),
             ],
           ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_password_manager/ui/themes/app_colors.dart';
 import 'create_password_screen.dart';
 import 'passwords_screen.dart';
 
@@ -31,7 +30,7 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    // final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
       body: SafeArea(
@@ -72,10 +71,14 @@ class _DashboardState extends State<Dashboard> {
                   disabled: true,
                 ),
               ],
-              leading: IconButton(
-                onPressed: widget.onTrocarTema,
-                icon: Icon(isDark ? Icons.dark_mode : Icons.light_mode, color: AppColors.white),
-              ),
+              // Botão de mudar de tema
+              // leading: IconButton(
+              //   onPressed: widget.onTrocarTema,
+              //   icon: Icon(
+              //     isDark ? Icons.dark_mode : Icons.light_mode,
+              //     color: AppColors.white,
+              //   ),
+              // ),
               leadingAtTop: true,
             ),
 

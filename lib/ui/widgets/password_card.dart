@@ -2,18 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../themes/app_colors.dart';
 
-class PasswordWidget extends StatelessWidget {
+class PasswordCard extends StatelessWidget {
   final String site;
   final String user;
   final String password;
   final VoidCallback showEditDialog;
+  final Widget image;
 
-  const PasswordWidget({
+  const PasswordCard({
     super.key,
     required this.site,
     required this.user,
     required this.password,
     required this.showEditDialog,
+    required this.image,
   });
 
   @override
@@ -41,7 +43,10 @@ class PasswordWidget extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.camera_alt_rounded, size: 50),
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: SizedBox(width: 50, height: 50, child: image),
+                        ),
                         Text(
                           site,
                           style: TextStyle(color: PasswordWidgetColor.logoText),
